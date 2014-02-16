@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>DRAG AND DROP FEATURE</title>
+		<style>
+			#div1{
+				width:240px;
+				height:520px;
+				padding:10px;
+				border:#99aabb 1px dashed;
+				float:left;
+			}
+		</style>
+		<script type="text/javascript" src="modernizr.js"></script>
+		<script type="text/javascript"> <!--CHECKING IF DRAG AND DROP IS ENABLED-->
+			if (window.FileReader && Modernizr.draganddrop) {
+				document.write("this browser CAN do drag and drop functions");
+				function allowDrop(event) {
+					event.preventDefault();
+				}
+				
+				function drag(event) {
+					event.dataTransfer.setData("Text", event.target.id);
+				}
+				
+				function drop(event) {
+					event.preventDefault();
+					var eventData = event.dataTransfer.getData("Text");
+					event.target.appendChild(document.getElementById(eventData));
+				}
+			} else {
+				document.write("this browser CANNOT do drag and drop functions");
+			}
+		</script>
+	</head>
+	<body>
+		<h1>DRAG AN IMAGE INTO THE BOX</h1>
+		<div id='div1' ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+		<img id ="drag1" src="aboutYouXXYYXX.jpg" draggable="true" ondragstart="drag(event)">
+		
+	</body>
+</html>

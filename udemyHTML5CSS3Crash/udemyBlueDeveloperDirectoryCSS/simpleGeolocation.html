@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>SIMPLE GEOLOCATION EXAMPLE</title>
+	</head>
+	<body>
+		<p>CLICK BELOW TO GET POSITION</p>
+		<button onclick="showLocation()"> CLICK HERE </button>
+		<script>
+			function showLocation()
+			{
+				if (navigator.geolocation)
+				{
+					navigator.geolocation.getCurrentPosition(showPosition);
+				} 
+				else 
+				{
+					alert("YOUR BROWSER DOES NOT SUPPORT GEOLOCATION SERVICES, PLEASE UPDATE");
+				}
+			}
+			
+			function showPosition(Position)
+			{
+				var returnedValues = Position.coords;
+				alert("Latitude: " + returnedValues.latitude + 
+					  " Longitude: " + returnedValues.longitude);
+			}
+		</script>
+	</body>
+</html>

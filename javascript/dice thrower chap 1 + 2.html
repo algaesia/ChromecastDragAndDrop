@@ -1,0 +1,219 @@
+<html>
+	<head>
+		<title> Throwing 2 die </title>
+		<script>
+			var canvasWidth = 400;
+			var canvasHeight = 300;
+			var dicePosX = 50;
+			var dicePosY = 50;
+			var diceWidth = 100;
+			var diceHeight = 100;
+			var dotRadius = 6;
+			var context;
+			var verticalPos;
+			var horizontalPos;
+			var firstTurn = true;
+			var playerScore = 0;
+			
+			//throw dice function generates random number for the first die
+			//and calls the draw face function, passing the random number
+			//to the draw face function
+			//the horizontal position is then altered to accomodate another 
+			//die face to the right of the first one
+			//the same process is performed again and another die face is drawn
+			function ThrowDice() {
+				var sum;
+				var randomNum = 1 + Math.floor(Math.random() * 6);
+				sum = randomNum;
+				horizontalPos = dicePosX;
+				verticalPos = dicePosY;
+				drawFace(randomNum);
+				
+				horizontalPos = dicePosX + 150;
+				randomNum = 1 + Math.floor(Math.random() * 6);
+				sum += randomNum;
+				drawFace(randomNum);
+				
+				//if it is the first turn, and the number rolled is
+				//7 or 11, then the player has won. if the number
+				//rolled is 2, 3 or 12, then the player has lost
+				//otherwise assign the random number generated
+				//to the player's score and print it out
+				if (firstTurn) {
+					switch(sum) {
+						case 7:						
+						case 11:
+							document.f.outcome.value="You win!";
+							break;
+						case 2:
+						case 3:
+						case 12:
+							document.f.outcome.value="You lose!";
+							break;
+						default:
+							playerScore = sum;
+							document.f.pv.value=playerScore;
+							firstTurn=false;
+							document.f.stage.value = "Need follow-up throw.";
+							document.f.outcome.value = " ";
+					}
+				}
+				//if first turn is not true, and sum is equal to the player's 
+				//score, then print out a statement saying the player has won
+				//if the number is 7, then print out a statement saying the
+				//player has lost
+				else {
+					switch(sum) {
+						case playerScore:
+						document.f.outcome.value="You win!";
+						document.f.stage.value="Back to first throw!";
+						document.pv.value=" ";
+						firstTurn = true;
+						break;
+						case 7:
+							document.f.outcome.value="You lose!";
+							document.f.stage.value="Back to first throw.";
+							document.f.pv.value=" ";
+							firstTurn = true;
+						break;
+					}
+				}
+			}
+			
+			function drawFace(n) {
+				context = document.getElementById('gameCanvas').getContext('2d');
+				context.lineWidth = 5;
+				context.clearRect(horizontalPos,verticalPos,diceWidth,diceHeight);
+				context.strokeRect(horizontalPos,verticalPos,diceWidth,diceHeight);
+				context.fillStyle = "#009966";
+				
+				switch(n) {
+					case 1:
+					{
+						Draw1();
+						break;
+					}
+					case 2:
+					{
+						Draw2();
+						break;
+					}
+					case 3:
+					{
+						Draw2();
+						Draw1();
+						break;
+					}
+					case 4:
+					{
+						Draw4();
+						break;
+					}
+					case 5:
+					{
+						Draw4();
+						Draw1();
+						break;
+					}
+					case 6:
+					{
+						Draw4();
+						Draw2Mid();
+						break;
+					}
+				}
+			}
+			
+			function Draw1() {
+				var dotPosX;
+				var dotPosY;
+				context.beginPath();
+				dotPosX = horizontalPos + 0.5 * diceWidth;
+				dotPosY = verticalPos + 0.5 * diceHeight;
+				
+				context.arc(dotPosX,dotPosY,dotRadius,0,Math.PI * 2, true);
+				context.closePath();
+				context.fill();
+			}
+			
+			function Draw2() {
+				var dotPosX;
+				var dotPosY;
+				context.beginPath();
+				
+				dotPosX = horizontalPos + 3 * dotRadius;
+				dotPosY = verticalPos + 3 * dotRadius;
+				context.arc(dotPosX,dotPosY,dotRadius,0,Math.PI*2,true);
+				
+				dotPosX = horizontalPos + diceWidth - 3 * dotRadius;
+				dotPosY = verticalPos + diceHeight - 3 * dotRadius;
+				context.arc(dotPosX,dotPosY,dotRadius,0,Math.PI*2,true);
+				
+				context.closePath();
+				context.fill();
+			}
+			
+			function Draw4() {
+				var dotPosX;
+				var dotPosY;
+				
+				context.beginPath();
+				
+				dotPosX = horizontalPos + 3 * dotRadius;
+				dotPosY = verticalPos + 3 * dotRadius;
+				context.arc(dotPosX,dotPosY,dotRadius,0,Math.PI*2,true);
+				
+				dotPosX = horizontalPos + diceWidth - 3 * dotRadius;
+				dotPosY = verticalPos + diceHeight - 3 * dotRadius;
+				context.arc(dotPosX,dotPosY,dotRadius,0,Math.PI*2,true);
+				
+				context.closePath();
+				context.fill();
+				
+				context.beginPath();
+				
+				dotPosX = horizontalPos + 3 * dotRadius;
+				dotPosY = verticalPos + diceHeight - 3 * dotRadius;
+				
+				context.arc(dotPosX,dotPosY,dotRadius,0,Math.PI * 2,true);
+				
+				context.closePath();
+				context.fill();
+			}
+			
+			function Draw2Mid() {
+				var dotPosX;
+				var dotPosY;
+				
+				context.beginPath();
+				
+				dotPosX = horizontalPos + 3 * dotRadius;
+				dotPosY = verticalPos + 0.5 * diceHeight;
+				
+				context.arc(dotPosX,dotPosY,dotRadius,0,Math.PI * 2, true);
+				context.closePath();
+				context.fill();
+			}
+		</script>
+	</head>
+	<body onLoad="ThrowDice();">
+		<canvas id="gameCanvas" width="400" height="300"></canvas>
+		<br/>
+		<button onClick="ThrowDice();">Throw Dice</button>
+		//html forms are used to pass data to a server - usually containing
+		//fields for user input and buttons for users to click on
+		<form name = "f">
+			//forms allow custom defined labels, in this case, users are given
+			//information about what is happening with their dice throws
+			//below shows the name of the input in terms of how it is called
+			//in code as well as what value that field is currently at
+			//the form variables can be called by the method seen below:
+			//document.f.outcome.value="You lose!";
+			//document.f.stage.value="Back to first throw.";
+			//document.f.pv.value=" ";
+			Stage: <input name = "stage" value = "First Throw"/>
+			Point: <input name = "pv" value = " "/>
+			Outcome: <input name = "outcome" value = " "/>
+		</form>
+	</body>
+</html>
