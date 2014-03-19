@@ -3,6 +3,7 @@
 	<head>
 		<title>Blue Developer Directory</title>
 		<link rel="stylesheet" href="css/style.css" type="text/css">
+		<script type="text/javascript" src="scripts/localStorageFunctions.js"></script>
 	</head>
 	<body>
 		<div id="container">
@@ -33,6 +34,18 @@
 					<li><a href="internetMarketing.html">Internet Marketing</a></li>
 					<li><a href="htmlTemplates.html">HTML Templates</a></li>
 				</ul>
+				<div>
+					<h3>Newsletter</h3>
+					<script>
+						displayEmail();
+					</script>
+					<form id="news" onsubmit="initStorage()">
+						Name: <input type="text" id="name" name="name">
+						Email: <input type="email" id="email" name="email">
+						<input type="submit" value="send">
+						<a href="#" onClick="resetValues()">Reset values</a>
+					</form>
+				</div>
 			</nav>
 			
 			<!-- CONTENT GOES HERE -->

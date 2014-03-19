@@ -76,6 +76,24 @@ header h2 span.blueText {
 	color:#c29fae;
 }
 
+aside {
+	color:#0000ff;
+	
+}
+
+aside input[type="text"], aside input[type="email"]{
+	margin-bottom:10px;
+}
+
+#displayName
+{
+	color:#000;
+	float:right;
+	font-weight:bold;
+	font-size:16px;
+	padding-right:10px;
+}
+
 #menu{
 	display:block;
 	float:left;
