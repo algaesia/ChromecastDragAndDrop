@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>DRAG AND DROP FEATURE</title>
+		<style>
+			#div1{
+				width:120px;
+				height:260px;
+				padding:10px;
+				border:#99aabb 1px dashed;
+				float:left;
+			}
+		</style>
+	</head>
+	<body>
+		<video id="ad" width="1280" height="720" controls="controls">
+			<source id="mainVid" src=" " type="video/mp4">
+			Your browser doesn't support the video tag, please update your browser
+		</video>
+		<div id='div1' ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+		
+		<script type="text/javascript">
+			var fileName = "string";
+			function allowDrop(event) {
+				event.preventDefault();
+			}
+			
+			function drop(event) {
+				event.preventDefault();
+				var files = event.dataTransfer.files;
+				for (var i = 0, f; f = files[i]; ++i)
+				{
+					fileName = f.name;
+				}
+				var mainVid = document.getElementById('ad');
+				mainVid.setAttribute("src", fileName);
+				mainVid.play();
+			}
+		</script>
+	</body>
+</html>
