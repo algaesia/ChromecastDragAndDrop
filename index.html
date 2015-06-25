@@ -13,6 +13,31 @@
     <section class="page-header">
       <h1 class="project-name">Chromecast Drag and Drop media player</h1>
       <h2 class="project-tagline">Testing out HTML 5 features</h2>
+      <video id="ad" width="1280" height="720" controls="controls">
+			<source id="mainVid" src=" " type="video/mp4">
+			Your browser doesn't support the video tag, please update your browser
+		</video>
+		<div id='div1' ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+		
+		<script type="text/javascript">
+			var fileName = "string";
+			function allowDrop(event) {
+				event.preventDefault();
+			}
+			
+			function drop(event) {
+				event.preventDefault();
+				var files = event.dataTransfer.files;
+				for (var i = 0, f; f = files[i]; ++i)
+				{
+					fileName = f.name;
+				}
+				var mainVid = document.getElementById('ad');
+				mainVid.setAttribute("src", fileName);
+				mainVid.play();
+			}
+		</script>
+      
       <a href="https://github.com/algaesia/ChromecastDragAndDrop" class="btn">View on GitHub</a>
       <a href="https://github.com/algaesia/ChromecastDragAndDrop/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/algaesia/ChromecastDragAndDrop/tarball/master" class="btn">Download .tar.gz</a>
